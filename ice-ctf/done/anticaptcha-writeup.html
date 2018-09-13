@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.0.3.2 (Linux)"/>
+	<meta name="created" content="2018-09-12T22:12:59.474549887"/>
+	<meta name="changed" content="2018-09-13T00:15:05.396651609"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115% }
+		a:link { so-language: zxx }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p style="margin-bottom: 0in; line-height: 100%">I tried out IceCTF
+this past week. From their website: “IceCTF is a computer security
+contest targeted at anyone with an interest in computer science. The
+game consists of a series of challenges where participants must
+reverse engineer, break, hack, decrypt, or do whatever it takes to
+solve the challenge. The challenges are all set up with the intent of
+being hacked, making it a great way to get some hands-on experience.”
+It’s based in Iceland and hosted on the crisp Adversary security
+training platform. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">I found out about it
+through NSL here in Los Angeles. Luckily, someone on their IRC
+invited me to collaborate with them. It was pretty fun, and it felt
+good to dust off CTF skills that I started developing this year. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">Here is a write up
+on the miscellaneous challenge “AntiCaptcha”</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><b>AntiCaptcha</b></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_dddaedb691913b25.png" name="Image1" align="left" width="665" height="410" border="0"/>
+“Wow,
+this is a big captcha. Who has enough time to solve this? Seems like
+a lot of effort to me!”</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">Upon visiting the
+webpage, you are presented with ~1000 questions, which seem to be all
+be questions that a bot could in fact answer. At first it seemed like
+there were only 3 question patterns: “Is X a prime number?”,
+“What is the greatest common divisor of X and Y?”, and “What is
+the Nth word in the following line: apple jelly carrot...”. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">I started off by
+trying to answer one and seeing what happens.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_1b2b4fbf5f512acc.png" name="Image2" align="left" width="665" height="416" border="0"/>
+
+<br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">Upon submitting a
+single correct answer, the page replied with “Failed to answer all
+questions correctly. You got 6 wrong.” In fact, solving three or
+four problems didn’t budge the amount I got wrong (unless I
+actually got one wrong, in which case it would say I got 7 wrong). 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">So, I got to work.
+My plan was to write a python script. The script would parse the HTML
+using Beautiful Soup, find all the questions, figure out which of the
+three questions was being asked, extract the variable to do some
+computation, and append it to a list of answers I would send back in
+a POST request.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">However, my script
+crashed on the question identifier. I printed out the input that was
+crashing it. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_dd1ac71a5f148f44.png" name="Image4" align="left" width="665" height="110" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">“Who directed the
+movie Jaws?”</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"> My assumption that
+there were only three question patterns turned out to be wrong. I
+tried answering it, but to my dismay, it still said I got six wrong.
+So, I hardcoded a reply to that question (Steven Spielberg, in case
+you were wondering). And then, it crashed again. This time the
+question was “What is the capital of Hawaii?” I put in
+“Honolulu”, submitted it, and ...</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_d038bee731ceed29.png" name="Image5" align="left" width="665" height="179" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">I only got 5 wrong!
+A bit less wrong is alright with me!</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">So, I modified my
+script to print out the oddball questions and keep going. I figured
+out which ones actually counted towards my score, answered them, and
+got the flag! 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">IceCTF{ahh_we_have_been_captchured}</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_e87f5296ac3b1c71.png" name="Image7" align="left" width="422" height="57" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_20f0799291d1451.png" name="Image6" align="left" width="452" height="144" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="anticaptcha-writeup_html_4829cff19188b81b.png" name="Image3" align="left" width="665" height="413" border="0"/>
+<br/>
+
+</p>
+</body>
+</html>
