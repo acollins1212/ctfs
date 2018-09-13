@@ -14,7 +14,7 @@ I started off by trying to answer one and seeing what would happen.
 
 Upon submitting a single correct answer, the page replied with “Failed to answer all questions correctly. You got 6 wrong.” In fact, solving three or four problems didn’t budge the amount I got wrong (unless I actually got one wrong, in which case it would say I got 7 wrong).
 
-So, I got to work. My plan was to write a python script. The script would parse the HTML using Beautiful Soup, find all the questions, figure out which of the three questions was being asked, extract the variable to do some computation, and append it to a list of answers I would send back in a POST request.
+So, I got to work. My plan was to write a [python script](anticaptcha.py). The script would parse the HTML using Beautiful Soup, find all the questions, figure out which of the three questions was being asked, extract the variable to do some computation, and append it to a list of answers I would send back in a POST request.
 
 However, my script crashed when trying to identify which question it was presented with. I printed out the input that was crashing it.
 
