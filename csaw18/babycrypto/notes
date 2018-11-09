@@ -1,0 +1,3 @@
+base64 decoding the ciphertext gives only letters from the N'KO alphabet (used in Africa)
+XOR'ing every byte (not sure if each byte is a character, idk how to figure out the encoding?) gives a lot of characters from the Thaana writing system
+
